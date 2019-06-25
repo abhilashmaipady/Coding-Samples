@@ -13,17 +13,18 @@ public class ArrayBribe {
     static void minimumBribes(int[] q) {
     	int bribe = 0;
     	int[] p = createArray(q.length);
-    	int index = q.length - 1;
+    	int index = 0;
     	while(!compareArray(p, q))
     	{
-    		if(index < 0) { 
+    		if(index >= q.length) { 
     			System.out.println("Too chaotic");
     			return;
     		}
     		int count = 0;
-    		int pIndex = index;
+    		int pIndex = indexOf(p, q[index]);
     		while(q[pIndex] != p[pIndex]) {
-    			count++;
+    			if(p[pIndex] > p[pIndex - 1]) count++;
+    			else count--;
     			swap(p, pIndex, --pIndex);
     		}
     		if(count > 2) { 
@@ -31,7 +32,7 @@ public class ArrayBribe {
     			return;
     		}
     		bribe += count;
-    		if(q[index] == p[index]) index --;
+    		if(q[index] == p[index]) index++;
     	}
 //    	int index = q.length - 1;
 //    	while(index > 0) {
@@ -49,6 +50,11 @@ public class ArrayBribe {
 //    	
     	System.out.println(bribe);
 
+    }
+    static int indexOf(int[] arr, int element) {
+    	for(int i = 0; i < arr.length; i++) 
+    		if(arr[i] == element) return i;
+    	return -1;
     }
     static void swap(int[] p, int m, int n) {
     	int temp = p[m];
